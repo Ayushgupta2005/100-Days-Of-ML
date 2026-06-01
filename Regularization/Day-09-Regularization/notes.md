@@ -2,77 +2,73 @@
 
 ## Why Regularization?
 
-When a model becomes too complex, it starts memorizing the training data instead of learning the actual pattern.
+While working with Polynomial Regression, I noticed that increasing the degree creates more features and makes the model more flexible. This helps fit non-linear data, but it can also lead to overfitting.
 
-This is called Overfitting.
-
-Regularization helps control model complexity by penalizing large coefficients.
+Regularization is used to control model complexity and prevent overfitting.
 
 ---
 
 ## Dataset Used
 
-We generated a synthetic non-linear dataset:
+I generated a synthetic non-linear dataset:
 
 python y = 0.5*x³ - 4*x² + 10*x + noise 
 
-The data follows a curved relationship and contains random noise to simulate real-world data.
+The noise was added to simulate real-world data.
 
 ---
 
 ## Why Polynomial Features?
 
-Original data contained only one feature:
+Initially the dataset had only one feature:
 
 text x 
 
-A linear model can only learn:
+A normal linear regression model can only learn:
 
-text y = w₀ + w₁x 
+text y = w0 + w1*x 
 
-which produces a straight line.
+which is a straight line.
 
-To capture the curve, we transformed the data using:
+To capture the curve in the data, I used:
 
 python PolynomialFeatures(degree=10) 
 
-This converted:
-
-text x 
-
-into:
+This transformed the single feature into:
 
 text 1, x, x², x³, x⁴, ..., x¹⁰ 
 
-Now the model can learn a polynomial relationship.
-
-The model is still Linear Regression, but it is trained on transformed polynomial features.
+Now the model has multiple polynomial features and can fit non-linear relationships.
 
 ---
 
-## Problem After Polynomial Features
+## Problem After Polynomial Transformation
 
-After transformation, the model has many coefficients:
+After converting the data into polynomial features, the number of coefficients increased.
 
-text w₀, w₁, w₂, ..., w₁₀ 
+text w0, w1, w2, ..., w10 
 
 Some coefficients can become very large.
 
-Large coefficients lead to:
+Large coefficients can lead to:
 
 - Complex curves
-- High variance
 - Overfitting
+- Poor generalization on unseen data
 
-Regularization solves this problem.
+This is where regularization helps.
 
 ---
 
-# Ridge Regression (L2)
+# Ridge Regression (L2 Regularization)
+
+### Formula
+
+text Loss = MSE + λ Σ wi² 
+
+### Idea
 
 Ridge adds a penalty on squared coefficients.
-
-Loss = MSE + \lambda \sum w_i^2
 
 ### Effect
 
@@ -83,15 +79,19 @@ Loss = MSE + \lambda \sum w_i^2
 
 ### Observation
 
-Large coefficients become smaller, resulting in smoother curves.
+The learned curve becomes smoother because very large coefficients are penalized.
 
 ---
 
-# Lasso Regression (L1)
+# Lasso Regression (L1 Regularization)
 
-Lasso adds a penalty on absolute coefficients.
+### Formula
 
-Loss = MSE + \lambda \sum |w_i|
+text Loss = MSE + λ Σ |wi| 
+
+### Idea
+
+Lasso adds a penalty on the absolute value of coefficients.
 
 ### Effect
 
@@ -101,28 +101,36 @@ Loss = MSE + \lambda \sum |w_i|
 
 ### Observation
 
-Some polynomial terms become completely unused.
+Some polynomial terms become completely unused because their coefficients become zero.
 
 ---
 
 # Elastic Net
 
-Elastic Net combines Ridge and Lasso.
+### Formula
 
-Loss = MSE + \lambda_1 \sum |w_i| + \lambda_2 \sum w_i^2
+text Loss = MSE + λ₁ Σ |wi| + λ₂ Σ wi² 
+
+### Idea
+
+Elastic Net combines both Ridge and Lasso.
 
 ### Effect
 
 - Shrinks coefficients
-- Can remove features
+- Can remove unnecessary features
 - More stable than pure Lasso
-- Useful when many features are correlated
+- Works well when features are correlated
+
+### Observation
+
+Elastic Net gives a balance between Ridge and Lasso.
 
 ---
 
 # Comparison
 
-| Method | Penalty | Feature Selection |
+| Method | Regularization | Feature Selection |
 |----------|----------|----------|
 | Ridge | L2 | No |
 | Lasso | L1 | Yes |
@@ -130,27 +138,25 @@ Loss = MSE + \lambda_1 \sum |w_i| + \lambda_2 \sum w_i^2
 
 ---
 
-# Key Learnings
+# Key Takeaways
 
 - Polynomial Features increase model complexity.
 - High complexity can cause overfitting.
-- Regularization controls coefficient size.
+- Regularization adds a penalty to large coefficients.
 - Ridge shrinks coefficients.
-- Lasso shrinks and removes coefficients.
-- Elastic Net combines both approaches.
-- Regularization improves generalization on unseen data.
+- Lasso shrinks coefficients and can remove features.
+- Elastic Net combines the advantages of both Ridge and Lasso.
+- Regularization helps the model generalize better on unseen data.
 
 ---
 
-## Folder Summary
-
-In this folder we:
+## What I Did In This Folder
 
 1. Created a non-linear dataset.
-2. Converted it into polynomial features.
-3. Trained Ridge Regression.
-4. Trained Lasso Regression.
-5. Trained Elastic Net Regression.
-6. Compared coefficients and learned curves.
-7. Understood how regularization reduces overfitting.
-```
+2. Converted the data into polynomial features.
+3. Applied Ridge Regression.
+4. Applied Lasso Regression.
+5. Applied Elastic Net Regression.
+6. Compared learned curves.
+7. Compared coefficients.
+8. Understood how regularization helps reduce overfitting.

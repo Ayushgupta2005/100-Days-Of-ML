@@ -46,16 +46,6 @@ The dendrogram is the tree diagram of the whole merging history.
 
 In scipy, `linkage()` builds it, `dendrogram()` draws it, and `fcluster()` cuts it to give labels.
 
----
-
-## Key Takeaways
-
-- hierarchical clustering merges (or splits) clusters step by step and records it as a tree
-- linkage decides what "closest" means and it really changes the result
-- the dendrogram lets you choose the number of clusters with an actual reason
-- great for smaller datasets where you want to see the structure, not great for huge data
-
----
 
 ## What I Did In This Folder
 
